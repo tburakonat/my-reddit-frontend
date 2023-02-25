@@ -19,6 +19,9 @@ const client = createClient({
 					register: (_result, _args, cache, _info) => {
 						cache.invalidate('Query', 'me');
 					},
+					logout: (_result, _args, cache, _info) => {
+						cache.invalidate('Query', 'me');
+					},
 				},
 			},
 		}),
