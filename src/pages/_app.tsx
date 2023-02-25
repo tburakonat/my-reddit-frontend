@@ -4,7 +4,10 @@ import theme from '../theme';
 import { AppProps } from 'next/app';
 import { Provider, createClient } from 'urql';
 
-const client = createClient({ url: 'http://localhost:4000/graphql', fetchOptions: { credentials: 'include' } });
+const client = createClient({
+	url: 'http://localhost:4000/graphql',
+	fetchOptions: { credentials: 'include' },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
