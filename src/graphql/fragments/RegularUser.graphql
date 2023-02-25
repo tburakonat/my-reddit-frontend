@@ -1,0 +1,4 @@
+fragment RegularUser on UserType {
+	id
+	username
+}
