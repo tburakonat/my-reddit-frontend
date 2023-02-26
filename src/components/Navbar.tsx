@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Link } from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 
@@ -23,12 +23,10 @@ const Navbar = () => {
 				</>
 			) : (
 				<Box ml="auto">
-					<NextLink href="/login">
-						<Link mr={2}>Login</Link>
+					<NextLink style={{ marginRight: '10px' }} href="/login">
+						Login
 					</NextLink>
-					<NextLink href="/register">
-						<Link href="/register">Register</Link>
-					</NextLink>
+					<NextLink href="/register">Register</NextLink>
 				</Box>
 			)}
 		</Flex>
