@@ -6,7 +6,7 @@ const Navbar = () => {
 	const [{ data, fetching }] = useMeQuery();
 	const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
 	return (
-		<Flex bg="tomato" p={4}>
+		<Flex bg="tomato" p={4} position="sticky" top="0">
 			{fetching ? null : data?.me ? (
 				<>
 					<Box mr="auto">Welcome {data.me.username}</Box>

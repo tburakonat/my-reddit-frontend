@@ -183,7 +183,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'PostType', id: number, createdAt: any, updatedAt: any, title: string }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'PostType', id: number, createdAt: any, updatedAt: any, title: string, text: string }> };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -290,6 +290,7 @@ export const PostsDocument = gql`
     createdAt
     updatedAt
     title
+    text
   }
 }
     `;
