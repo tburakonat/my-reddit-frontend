@@ -40,14 +40,14 @@ const Login: React.FC<LoginProps> = ({}) => {
 						<Box mt={4}>
 							<InputField name="password" label="Password:" placeholder="Password" type="password" />
 						</Box>
-						<Flex justifyContent="space-between">
-							<Button mt={4} type="submit" isLoading={isSubmitting} variant="outline" color="teal">
-								Login
-							</Button>
-							<Button mt={4} color="tomato" variant="outline">
-								<Link href="/forgot-password">Forgot Password</Link>
-							</Button>
+						<Flex mt={2}>
+							<Link href="/forgot-password" style={{ marginLeft: 'auto', textDecoration: 'underline' }}>
+								forgot password?
+							</Link>
 						</Flex>
+						<Button mt={4} type="submit" isLoading={isSubmitting} variant="outline" color="teal">
+							Login
+						</Button>
 					</Form>
 				)}
 			</Formik>
