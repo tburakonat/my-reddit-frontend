@@ -25,8 +25,8 @@ const Index = () => {
 					Create Post
 				</Link>
 			</Flex>
-			<Stack spacing={8} mt={4}>
-				{data.posts.map(post => {
+			<Stack spacing={8} my={4}>
+				{data.posts.posts.map(post => {
 					return (
 						<Box key={post.id} p="5" shadow="md" borderWidth="1px">
 							<Heading fontSize="xl">{post.title}</Heading>
@@ -35,7 +35,7 @@ const Index = () => {
 					);
 				})}
 			</Stack>
-			{data && (
+			{data && data.posts.hasMore && (
 				<Flex>
 					<Button
 						isLoading={fetching}
@@ -45,7 +45,7 @@ const Index = () => {
 							setVariables(() => {
 								return {
 									limit: 10,
-									cursor: data.posts[data.posts.length - 1].createdAt,
+									cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
 								};
 							});
 						}}
