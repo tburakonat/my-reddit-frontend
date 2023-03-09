@@ -6,7 +6,7 @@ import { usePostsQuery } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Index = () => {
-	const [variables, setVariables] = useState({ limit: 10, cursor: null as null | string });
+	const [variables, setVariables] = useState({ limit: 15, cursor: null as null | string });
 	const [{ data, fetching }] = usePostsQuery({ variables });
 
 	if (!fetching && !data) {
@@ -30,6 +30,7 @@ const Index = () => {
 					return (
 						<Box key={post.id} p="5" shadow="md" borderWidth="1px">
 							<Heading fontSize="xl">{post.title}</Heading>
+							<Text>posted by {post.author.username}</Text>
 							<Text mt={4}>{post.textSnippet}</Text>
 						</Box>
 					);

@@ -80,6 +80,12 @@ export const createUrqlClient = (ssrExchange: any) => ({
 					logout: (_result, _args, cache, _info) => {
 						cache.invalidate('Query', 'me');
 					},
+					createPost: (_result, _args, cache, _info) => {
+						cache.invalidate('Query', 'posts', {
+							limit: 15,
+							cursor: null,
+						});
+					},
 				},
 			},
 		}),

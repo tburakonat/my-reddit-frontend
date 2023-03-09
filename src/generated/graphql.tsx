@@ -32,6 +32,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: UserResponse;
   updatePost?: Maybe<PostType>;
+  vote: Scalars['Boolean'];
 };
 
 
@@ -73,6 +74,12 @@ export type MutationUpdatePostArgs = {
   title: Scalars['String'];
 };
 
+
+export type MutationVoteArgs = {
+  postId: Scalars['Int'];
+  value: Scalars['Int'];
+};
+
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   hasMore: Scalars['Boolean'];
@@ -81,6 +88,7 @@ export type PaginatedPosts = {
 
 export type PostType = {
   __typename?: 'PostType';
+  author: UserType;
   authorId: Scalars['Float'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Float'];
@@ -89,6 +97,7 @@ export type PostType = {
   textSnippet: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  updoots: Array<UpdootType>;
 };
 
 export type Query = {
@@ -109,6 +118,13 @@ export type QueryPostsArgs = {
   limit: Scalars['Int'];
 };
 
+export type UpdootType = {
+  __typename?: 'UpdootType';
+  postId: Scalars['Float'];
+  userId: Scalars['Float'];
+  value: Scalars['Float'];
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
@@ -117,10 +133,9 @@ export type UserResponse = {
 
 export type UserType = {
   __typename?: 'UserType';
-  createdAt: Scalars['DateTime'];
   email: Scalars['String'];
   id: Scalars['Float'];
-  updatedAt: Scalars['DateTime'];
+  updoots: Array<UpdootType>;
   username: Scalars['String'];
 };
 
@@ -190,7 +205,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'PostType', id: number, createdAt: any, updatedAt: any, title: string, textSnippet: string }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'PostType', id: number, createdAt: any, updatedAt: any, title: string, textSnippet: string, author: { __typename?: 'UserType', id: number, username: string } }> } };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -300,6 +315,10 @@ export const PostsDocument = gql`
       updatedAt
       title
       textSnippet
+      author {
+        id
+        username
+      }
     }
   }
 }
