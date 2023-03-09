@@ -1,9 +1,11 @@
-import { Box, Button, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Link, Stack, Text, IconButton } from '@chakra-ui/react';
+import { Icon, TriangleUpIcon, TriangleDownIcon } from '@chakra-ui/icons';
 import { withUrqlClient } from 'next-urql';
 import { useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
 import { usePostsQuery } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';
+import { UpdootSection } from '../components/UpdootSection';
 
 const Index = () => {
 	const [variables, setVariables] = useState({ limit: 15, cursor: null as null | string });
@@ -29,9 +31,14 @@ const Index = () => {
 				{data.posts.posts.map(post => {
 					return (
 						<Box key={post.id} p="5" shadow="md" borderWidth="1px">
-							<Heading fontSize="xl">{post.title}</Heading>
-							<Text>posted by {post.author.username}</Text>
-							<Text mt={4}>{post.textSnippet}</Text>
+							<Flex>
+								<UpdootSection post={post} />
+								<Box>
+									<Heading fontSize="xl">{post.title}</Heading>
+									<Text>posted by {post.author.username}</Text>
+									<Text mt={4}>{post.textSnippet}</Text>
+								</Box>
+							</Flex>
 						</Box>
 					);
 				})}
