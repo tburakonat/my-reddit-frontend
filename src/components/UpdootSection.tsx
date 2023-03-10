@@ -20,7 +20,7 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
 				icon={<Icon as={TriangleUpIcon} />}
 				variant="link"
 				size="md"
-				// color="tomato"
+				color={post.voteStatus === 1 ? 'tomato' : undefined}
 				onClick={async () => {
 					setLoadingState('updoot-loading');
 					await vote({ postId: post.id, value: 1 });
@@ -34,7 +34,7 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
 				icon={<Icon as={TriangleDownIcon} />}
 				variant="link"
 				size="md"
-				// color="blue.500"
+				color={post.voteStatus === -1 ? 'blue.500' : undefined}
 				onClick={async () => {
 					setLoadingState('downdoot-loading');
 					await vote({ postId: post.id, value: -1 });
