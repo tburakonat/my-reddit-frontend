@@ -5,11 +5,21 @@ import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 const Navbar = () => {
 	const [{ data, fetching }] = useMeQuery();
 	const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
+	const siteName = (
+		<NextLink href="/">
+			<Box>redditClone</Box>
+		</NextLink>
+	);
+
 	return (
 		<Flex bg="tomato" p={4} position="sticky" top="0" zIndex="1">
 			{fetching ? null : data?.me ? (
 				<>
-					<Box mr="auto">Welcome {data.me.username}</Box>
+					{siteName}
+					<NextLink href="/create-post" style={{ marginInline: 'auto' }}>
+						Create Post
+					</NextLink>
+					<Box mr="10px">{data.me.username}</Box>
 					<Box>
 						<Button
 							variant="link"
@@ -22,12 +32,15 @@ const Navbar = () => {
 					</Box>
 				</>
 			) : (
-				<Box ml="auto">
-					<NextLink style={{ marginRight: '10px' }} href="/login">
-						Login
-					</NextLink>
-					<NextLink href="/register">Register</NextLink>
-				</Box>
+				<>
+					{siteName}
+					<Box ml="auto">
+						<NextLink style={{ marginRight: '10px' }} href="/login">
+							Login
+						</NextLink>
+						<NextLink href="/register">Register</NextLink>
+					</Box>
+				</>
 			)}
 		</Flex>
 	);
