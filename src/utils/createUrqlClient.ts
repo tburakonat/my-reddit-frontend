@@ -82,6 +82,9 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 				},
 				updates: {
 					Mutation: {
+						deletePost: (_result, _args, cache, _info) => {
+							cache.invalidate('Query', 'posts', { limit: 15 });
+						},
 						vote: (_result, args, cache, _info) => {
 							const { postId, value } = args as VoteMutationVariables;
 
