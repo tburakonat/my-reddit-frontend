@@ -1,15 +1,18 @@
-import { Box, Button, Flex, Heading, Link, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, IconButton, Link, Stack, Text } from '@chakra-ui/react';
 import { withUrqlClient } from 'next-urql';
 import { useState } from 'react';
 import { Layout } from '../components/Layout';
-import { usePostsQuery } from '../generated/graphql';
+import { useDeletePostMutation, useMeQuery, usePostsQuery } from '../generated/graphql';
 import { createUrqlClient } from '../utils/createUrqlClient';
 import { UpdootSection } from '../components/UpdootSection';
 import NextLink from 'next/link';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 const Index = () => {
 	const [variables, setVariables] = useState({ limit: 15, cursor: null as null | string });
 	const [{ data, fetching }] = usePostsQuery({ variables });
+	const [, deletePost] = useDeletePostMutation();
+	const [{ data: meData }] = useMeQuery();
 
 	if (!fetching && !data) {
 		return <div>Something went wrong</div>;
@@ -21,18 +24,33 @@ const Index = () => {
 
 	return (
 		<Layout>
-			<Stack spacing={8} mb={4} mt={10}>
+			<Stack spacing={8} mb={4} mt={10} marginInline={4}>
 				{data.posts.posts.map(post => {
 					return (
 						<Box key={post.id} p="5" shadow="md" borderWidth="1px">
 							<Flex>
 								<UpdootSection post={post} />
-								<Box>
-									<NextLink href="/post/[id]" as={`/post/${post.id}`}>
-										<Heading fontSize="xl">{post.title}</Heading>
+								<Box flex="1">
+									<NextLink href="/post/[id]" as={`/post/${post.id}`} legacyBehavior passHref>
+										<Link>
+											<Heading fontSize="xl" style={{ display: 'inline' }}>
+												{post.title}
+											</Heading>
+										</Link>
 									</NextLink>
 									<Text>posted by {post.author.username}</Text>
-									<Text mt={4}>{post.textSnippet}</Text>
+									<Flex>
+										<Text mt={4}>{post.textSnippet}</Text>
+										{meData?.me?.id === post.author.id && (
+											<IconButton
+												aria-label="delete post"
+												icon={<DeleteIcon />}
+												_hover={{ color: 'red' }}
+												ml="auto"
+												onClick={async () => await deletePost({ deletePostId: post.id })}
+											/>
+										)}
+									</Flex>
 								</Box>
 							</Flex>
 						</Box>
