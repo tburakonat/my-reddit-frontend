@@ -1,19 +1,17 @@
 import React from 'react';
 import { withUrqlClient } from 'next-urql';
 import { createUrqlClient } from '../../utils/createUrqlClient';
-import { useRouter } from 'next/router';
-import { useDeletePostMutation, useMeQuery, usePostQuery } from '../../generated/graphql';
+import { useMeQuery } from '../../generated/graphql';
 import { Layout } from '../../components/Layout';
-import { Box, Button, Flex, Heading, IconButton, Text } from '@chakra-ui/react';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { useGetPostFromUrl } from '../../utils/useGetPostFromUrl';
+import { EditDeletePostButtons } from '../../components/EditDeletePostButtons';
 
 interface PostProps {}
 
 const Post: React.FC<PostProps> = ({}) => {
-	const router = useRouter();
 	const [{ data: meData }] = useMeQuery();
-	const [, deletePost] = useDeletePostMutation();
-	const [{ data, fetching, error }] = usePostQuery({ variables: { id: parseInt(router.query.id.toString()) } });
+	const [{ data, fetching, error }] = useGetPostFromUrl();
 
 	if (fetching) {
 		return (
@@ -45,23 +43,12 @@ const Post: React.FC<PostProps> = ({}) => {
 				<Box>
 					<Heading mb="4">{data.post.title}</Heading>
 					<Text>{data.post.text}</Text>
-					<Text>{data.post.author.username}</Text>
-					<Text>{data.post.createdAt}</Text>
-					<Text>{data.post.points}</Text>
+					<Text>By: {data.post.author.username}</Text>
+					<Text>Points: {data.post.points}</Text>
 				</Box>
 				{meData && meData.me && meData.me.id === data.post.author.id && (
 					<Flex mt="5">
-						<Box ml="auto">
-							{/* style this button red when hovered */}
-							<Button
-								leftIcon={<DeleteIcon />}
-								variant="solid"
-								_hover={{ color: 'tomato' }}
-								onClick={() => deletePost({ deletePostId: data.post.id })}
-							>
-								Delete
-							</Button>
-						</Box>
+						<EditDeletePostButtons id={data.post.id} />
 					</Flex>
 				)}
 			</div>
